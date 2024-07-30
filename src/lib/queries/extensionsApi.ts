@@ -16,5 +16,15 @@ export const extensionsApi = createApi({
       query: (id) => ({ url: `extensions/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Extensions'],
     }),
+    editExtension: builder.mutation<
+      IExtension,
+      { id: string; body: Partial<IExtension> }
+    >({
+      query: ({ id, body }) => ({
+        url: `extension/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+    }),
   }),
 });

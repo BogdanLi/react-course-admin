@@ -13,10 +13,15 @@ import { indigo, red } from '@mui/material/colors';
 
 interface Props {
   extensions: IExtension[] | undefined;
-  handleClick: (n: number) => void;
+  deleteClickHandler: (n: number) => void;
+  editClickHandler: (n: number) => void;
 }
 
-const ExtensionsTable = ({ extensions, handleClick }: Props) => {
+const ExtensionsTable = ({
+  extensions,
+  deleteClickHandler,
+  editClickHandler,
+}: Props) => {
   return (
     <TableContainer>
       <Table border={1}>
@@ -62,11 +67,14 @@ const ExtensionsTable = ({ extensions, handleClick }: Props) => {
                   <TableCell>
                     <Button
                       sx={{ width: '100%', fontWeight: 600, color: red[500] }}
-                      onClick={() => handleClick(extension.id)}
+                      onClick={() => deleteClickHandler(extension.id)}
                     >
                       Del
                     </Button>
-                    <Button sx={{ width: '100%', fontWeight: 600 }}>
+                    <Button
+                      sx={{ width: '100%', fontWeight: 600 }}
+                      onClick={() => editClickHandler(extension.id)}
+                    >
                       Edit
                     </Button>
                   </TableCell>

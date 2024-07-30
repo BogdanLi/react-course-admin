@@ -3,16 +3,22 @@ import ExtensionsTable from '../components/extensions/ExtensionsTable';
 import { extensionsApi } from '../lib/queries/extensionsApi';
 import { useState } from 'react';
 import DeleteExtensionModal from '../components/ui/DeleteExtensionModal';
+import EditExtensionModal from '../components/ui/EditExtensionModal';
 
 const useGetAllExtensions = extensionsApi.endpoints.getAllExtensions.useQuery;
 
 const ExtensionsPage = () => {
   const { data: extensions } = useGetAllExtensions();
-  const [show, setShow] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [currentId, setCurrentId] = useState(0);
 
-  const handleClick = (n: number) => {
-    setShow(true);
+  const deleteClickHandler = (n: number) => {
+    setShowDeleteModal(true);
+    setCurrentId(n);
+  };
+  const editClickHandler = (n: number) => {
+    setShowEditModal(true);
     setCurrentId(n);
   };
 
@@ -26,14 +32,20 @@ const ExtensionsPage = () => {
           Extensions
         </Typography>
         <ExtensionsTable
-          handleClick={handleClick}
+          editClickHandler={editClickHandler}
+          deleteClickHandler={deleteClickHandler}
           extensions={extensions}
         />
       </Container>
       <DeleteExtensionModal
         currentId={currentId}
-        setShow={setShow}
-        show={show}
+        setShow={setShowDeleteModal}
+        show={showDeleteModal}
+      />
+      <EditExtensionModal
+        currentId={currentId}
+        setShow={setShowEditModal}
+        show={showEditModal}
       />
     </>
   );
